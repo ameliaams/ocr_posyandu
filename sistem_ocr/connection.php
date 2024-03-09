@@ -4,10 +4,8 @@ $username = "root";
 $password = "";
 $database = "posyandu_db";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = mysqli_connect($servername, $username, $password, $database);
 
-if ($conn) {
-    echo "";
-} else {
+if (!$conn) {
     echo "Koneksi dengan MySQL gagal <br>; " . mysqli_connect_error();
 }

@@ -1,3 +1,27 @@
+<?php
+include "../sistem_ocr/connection.php";
+$id_balita = $_GET["id_balita"];
+
+if (isset($_POST["update"])) {
+    $nama_balita = $_POST['nama_balita'];
+    $jenis_kelamin = $_POST['jenis_kelamin'];
+    $tgl_lahir = $_POST['tgl_lahir'];
+    $umur = $_POST['umur'];
+    $nama_ortu = $_POST['nama_ortu'];
+
+    $sql = "UPDATE `balita` SET `nama_balita`='$nama_balita',`jenis_kelamin`='$jenis_kelamin',`tgl_lahir`='$tgl_lahir',`umur`='$umur',`nama_ortu`='$nama_ortu' WHERE id_balita = $id_balita";
+
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        header("Location: peserta.php?msg=Data updated successfully");
+    } else {
+        echo "Failed: " . mysqli_error($conn);
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,19 +40,6 @@
     <link href="assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="assets/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-    <!-- bootstrap-wysiwyg -->
-    <link href="../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
-    <!-- Select2 -->
-    <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
-    <!-- Switchery -->
-    <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
-    <!-- starrr -->
-    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
     <!-- Custom Theme Style -->
     <link href="assets/build/css/custom.min.css" rel="stylesheet">
 </head>
@@ -98,6 +109,12 @@
             <!-- /top navigation -->
 
             <!-- page content -->
+            <?php
+            $sql = "SELECT * FROM `balita` WHERE id_balita = $id_balita LIMIT 1";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($result);
+            ?>
+
             <div class="right_col" role="main">
                 <div class="">
                     <div class="page-title">
@@ -115,44 +132,51 @@
                                 </div>
                                 <div class="x_content">
                                     <br />
-                                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                    <form id="demo-form2" method="post" action="" data-parsley-validate class="form-horizontal form-label-left">
+                                        <input type="hidden" name="id_balita" value="<?php echo $row['id_balita']; ?>">
 
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nama Balita
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                                                <input type="text" class="form-control col-md-7 col-xs-12" name="nama_balita" value="<?php echo $row['nama_balita']; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">Jenis Kelamin</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Jenis Kelamin</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <p>
-                                                    <input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required /> Laki-laki <br>
-                                                    <input type="radio" class="flat" name="gender" id="genderF" value="F" /> Perempuan
+                                                    <input type="radio" class="flat" name="jenis_kelamin" value="L" <?php if ($row['jenis_kelamin'] == "L") echo "checked"; ?>> Laki-laki <br>
+                                                    <input type="radio" class="flat" name="jenis_kelamin" value="P" <?php if ($row['jenis_kelamin'] == "P") echo "checked"; ?>> Perempuan
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">Tanggal Lahir</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tanggal Lahir</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="date" class="form-control has-feedback-left" id="tanggal_lahir" placeholder="Tanggal Lahir" aria-describedby="inputSuccess2Status" />
+                                                <input type="date" class="form-control has-feedback-left" name="tgl_lahir" aria-describedby="inputSuccess2Status" value="<?php echo $row['tgl_lahir']; ?>" />
                                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                                 <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Nama Orang Tua
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Umur (bulan)</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" name="umur" class="form-control col-md-7 col-xs-12" value="<?php echo $row['umur']; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Orang Tua
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                                                <input type="text" name="nama_ortu" class="form-control col-md-7 col-xs-12" value="<?php echo $row['nama_ortu']; ?>">
                                             </div>
                                         </div>
                                         <div class="ln_solid"></div>
                                         <div class="form-group">
                                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                                <button class="btn btn-primary" type="button">Batal</button>
-                                                <button type="submit" class="btn btn-success">Simpan</button>
+                                                <a href="peserta.php" class="btn btn-primary" type="button">Batal</a>
+                                                <button type="submit" class="btn btn-success" name="update">Ubah</button>
                                             </div>
                                         </div>
                                     </form>
@@ -179,62 +203,10 @@
     <script src="assets/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="assets/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="assets/vendors/nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="assets/vendors/iCheck/icheck.min.js"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- bootstrap-wysiwyg -->
-    <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
-    <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
-    <script src="../vendors/google-code-prettify/src/prettify.js"></script>
-    <!-- jQuery Tags Input -->
-    <script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
-    <!-- Switchery -->
-    <script src="../vendors/switchery/dist/switchery.min.js"></script>
-    <!-- Select2 -->
-    <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
-    <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
-    <!-- Autosize -->
-    <script src="../vendors/autosize/dist/autosize.min.js"></script>
-    <!-- jQuery autocomplete -->
-    <script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
-    <!-- starrr -->
-    <script src="../vendors/starrr/dist/starrr.js"></script>
-
-    <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- bootstrap-datetimepicker -->
-    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <!-- Ion.RangeSlider -->
-    <script src="../vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
-    <!-- Bootstrap Colorpicker -->
-    <script src="../vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-    <!-- jquery.inputmask -->
-    <script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
-    <!-- jQuery Knob -->
-    <script src="../vendors/jquery-knob/dist/jquery.knob.min.js"></script>
-    <!-- Cropper -->
-    <script src="../vendors/cropper/dist/cropper.min.js"></script>
-
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="assets/build/js/custom.min.js"></script>
 
 </body>
 

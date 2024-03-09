@@ -1,5 +1,5 @@
 <?php
-require '../sistem_ocr/connection.phps';
+require '../sistem_ocr/connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +146,7 @@ require '../sistem_ocr/connection.phps';
                                                     <td><?php echo $row["tgl_lahir"]; ?></td>
                                                     <td><?php echo $row["umur"]; ?></td>
                                                     <td><?php echo $row["nama_ortu"]; ?></td>
-                                                    <td> <a href="edit_peserta.php" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                    <td> <a href="../sistem_ocr/peserta_edit.php?id_balita=<?php echo $row["id_balita"]; ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                                         <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                                     </td>
                                                 </tr>

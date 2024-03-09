@@ -104,39 +104,39 @@
                                     <br />
                                     <form id="demo-form2" method="post" action="peserta_add.php" data-parsley-validate class="form-horizontal form-label-left">
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nama Balita</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Balita</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="first-name" name="nama_balita" required="required" class="form-control col-md-7 col-xs-12">
+                                                <input type="text" name="nama_balita" required="required" class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">Jenis Kelamin</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Jenis Kelamin</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <p>
-                                                    <input type="radio" class="flat" name="jenis_kelamin" id="L" value="L" required /> Laki-laki <br>
-                                                    <input type="radio" class="flat" name="jenis_kelamin" id="P" value="P" /> Perempuan
+                                                    <input type="radio" class="flat" name="jenis_kelamin" value="L" required /> Laki-laki <br>
+                                                    <input type="radio" class="flat" name="jenis_kelamin" value="P" /> Perempuan
                                                 </p>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tanggal_lahir">Tanggal Lahir</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Tanggal Lahir</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="date" class="form-control has-feedback-left" id="tanggal_lahir" name="tgl_lahir" placeholder="Tanggal Lahir" aria-describedby="inputSuccess2Status" />
+                                                <input type="date" class="form-control has-feedback-left" name="tgl_lahir" placeholder="Tanggal Lahir" aria-describedby="inputSuccess2Status" />
                                                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                                 <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Umur (bulan)</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Umur (bulan)</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="umur" name="umur" required="required" class="form-control col-md-7 col-xs-12">
+                                                <input type="text" name="umur" required="required" class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Nama Orang Tua</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Orang Tua</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="last-name" name="nama_ortu" required="required" class="form-control col-md-7 col-xs-12">
+                                                <input type="text" name="nama_ortu" required="required" class="form-control col-md-7 col-xs-12">
                                             </div>
                                         </div>
                                         <div class="ln_solid"></div>
@@ -157,8 +157,8 @@
                                         $umur = $_POST['umur'];
                                         $nama_ortu = $_POST['nama_ortu'];
 
-                                        $result = mysqli_query($conn, "INSERT INTO balita (nama_balita, jenis_kelamin, tgl_lahir, umur, nama_ortu)
-                                        VALUES ('$nama_balita', '$jenis_kelamin', '$tgl_lahir', '$umur', '$nama_ortu')");
+                                        $result = mysqli_query($conn, "INSERT INTO balita (id_balita, nama_balita, jenis_kelamin, tgl_lahir, umur, nama_ortu)
+                                        VALUES (NULL, '$nama_balita', '$jenis_kelamin', '$tgl_lahir', '$umur', '$nama_ortu')");
 
                                         echo "Data Balita berhasil ditambahkan!";
                                     }
