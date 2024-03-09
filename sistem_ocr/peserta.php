@@ -147,7 +147,7 @@ require '../sistem_ocr/connection.php';
                                                     <td><?php echo $row["umur"]; ?></td>
                                                     <td><?php echo $row["nama_ortu"]; ?></td>
                                                     <td> <a href="../sistem_ocr/peserta_edit.php?id_balita=<?php echo $row["id_balita"]; ?>" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                                        <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                                        <a href="../sistem_ocr/peserta_delete.php?id_balita=<?php echo $row["id_balita"]; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
