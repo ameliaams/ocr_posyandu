@@ -31,6 +31,7 @@ require '../sistem_ocr/connection.php';
 
     <!-- Custom Theme Style -->
     <link href="assets/build/css/custom.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="nav-md">
@@ -141,7 +142,7 @@ require '../sistem_ocr/connection.php';
                                             foreach ($rows as $row) :
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $row["nama_balita"]; ?></td>
+                                                    <td><a href="../sistem_ocr/pengukuran_add.php?id_balita=<?php echo $row["id_balita"]; ?>" class="myLink"><?php echo $row["nama_balita"]; ?></a></td>
                                                     <td><span class="label label-primary"><?php echo $row["jenis_kelamin"]; ?></span></td>
                                                     <td><?php echo $row["tgl_lahir"]; ?></td>
                                                     <td><?php echo $row["umur"]; ?></td>
@@ -174,6 +175,30 @@ require '../sistem_ocr/connection.php';
         </div>
     </div>
 
+    <script>
+        document.querySelectorAll('.myLink').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: "Input data melalui?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Input dengan kamera",
+                    denyButtonText: "Input manual",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "kamera.php";
+                        window.location.href = event.target.href;
+                    } else if (result.isDenied) {
+                        window.location.href = "pengukuran_add.php";
+                        window.location.href = event.target.href;
+                    }
+                });
+            });
+        });
+    </script>
+
     <!-- jQuery -->
     <script src="assets/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -200,7 +225,6 @@ require '../sistem_ocr/connection.php';
     <script src="assets/vendors/jszip/dist/jszip.min.js"></script>
     <script src="assets/vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="assets/vendors/pdfmake/build/vfs_fonts.js"></script>
-
     <!-- Custom Theme Scripts -->
     <script src="assets/build/js/custom.min.js"></script>
 
