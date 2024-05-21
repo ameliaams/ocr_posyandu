@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera Upload</title>
+    <style>
+      #video-container {
+        margin: auto;
+        width: 80%;
+        text-align: center;
+      }
+      video {
+        width: 100%;
+        max-width: 600px;
+      }
+      #capture-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center">Camera Upload</h1>
+    <div id="video-container">
+      <video id="video" playsinline autoplay></video>
+      <button id="capture-btn">Capture</button>
+    </div>
+    <canvas id="canvas" style="display: none"></canvas>
+
+    <script>
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      const captureButton = document.getElementById("capture-btn");
+      const constraints = {
+        video: { facingMode: "environment" },
+      };
+
+      // Mengakses kamera perangkat
+      async function initCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          video.srcObject = stream;
+        } catch (err) {
+          console.error("Error accessing the camera: ", err);
+        }
+      }
+
+      // Memotret gambar dari video
+      function captureImage() {
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const image = canvas.toDataURL("image/jpg");
+
+        // Kirim gambar yang diambil ke server
+        fetch("/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ image: image }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.text);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      captureButton.addEventListener("click", captureImage);
+
+      // Memulai kamera saat halaman dimuat
+      initCamera();
+    </script>
+  </body>
+</html>

@@ -178,9 +178,9 @@ require '../sistem_ocr/connection.php';
                             cancelButtonText: 'Batal',
                         }).then((innerResult) => {
                             if (innerResult.isConfirmed) {
-                                window.location.href = "kamera.php?type=berat";
+                                window.location.href = "../templates/kamera.html?type=berat";
                             } else if (innerResult.isDenied) {
-                                window.location.href = "kamera.php?type=tinggi";
+                                window.location.href = "../templates/kamera.html?type=tinggi";
                             }
                         });
                     } else if (result.isDenied) {
